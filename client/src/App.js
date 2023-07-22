@@ -24,11 +24,11 @@ import ExploreView from "./components/views/ExploreView";
 import PrivateRoute from "./components/PrivateRoute";
 
 
-// import { initiateSocketConnection } from "./helpers/socketHelper";
+
 
 
 function App() {
-  // initiateSocketConnection();
+
 
   return (
     <ThemeProvider theme={theme}>

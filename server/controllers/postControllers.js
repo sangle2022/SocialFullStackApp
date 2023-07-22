@@ -157,41 +157,7 @@ const enrichWithUserLikePreview = async (posts) => {
   });
 };
 
-// const getUserLikedPosts = async (req, res) => {
-//   try {
-//     const likerId = req.params.id;
-//     const { userId } = req.body;
-//     let { page, sortBy } = req.query;
 
-//     if (!sortBy) sortBy = "-createdAt";
-//     if (!page) page = 1;
-
-//     let posts = await PostLike.find({ userId: likerId })
-//       .sort(sortBy)
-//       .populate({ path: "postId", populate: { path: "poster" } })
-//       .lean();
-
-//     posts = paginate(posts, 10, page);
-
-//     const count = posts.length;
-
-//     let responsePosts = [];
-//     posts.forEach((post) => {
-//       responsePosts.push(post.postId);
-//     });
-
-//     if (userId) {
-//       await setLiked(responsePosts, userId);
-//     }
-
-//     await enrichWithUserLikePreview(responsePosts);
-
-//     return res.json({ data: responsePosts, count });
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(400).json({ error: err.message });
-//   }
-// };
 
 const getPosts = async (req, res) => {
   try {
@@ -266,69 +232,7 @@ const likePost = async (req, res) => {
   }
 };
 
-// const unlikePost = async (req, res) => {
-//   try {
-//     const postId = req.params.id;
-//     const { userId } = req.body;
 
-//     const post = await Post.findById(postId);
-
-//     if (!post) {
-//       throw new Error("Post does not exist");
-//     }
-
-//     const existingPostLike = await PostLike.findOne({ postId, userId });
-
-//     if (!existingPostLike) {
-//       throw new Error("Post is already not liked");
-//     }
-
-//     await existingPostLike.remove();
-
-//     post.likeCount = (await PostLike.find({ postId })).length;
-
-//     await post.save();
-
-//     return res.json({ success: true });
-//   } catch (err) {
-//     return res.status(400).json({ error: err.message });
-//   }
-// };
-
-// const getUserLikes = async (req, res) => {
-//   try {
-//     const { postId } = req.params;
-//     const { anchor } = req.query;
-
-//     const postLikesQuery = PostLike.find({ postId: postId })
-//       .sort("_id")
-//       .limit(USER_LIKES_PAGE_SIZE + 1)
-//       .populate("userId", "username");
-
-//     if (anchor) {
-//       postLikesQuery.where("_id").gt(anchor);
-//     }
-
-//     const postLikes = await postLikesQuery.exec();
-
-//     const hasMorePages = postLikes.length > USER_LIKES_PAGE_SIZE;
-
-//     if (hasMorePages) postLikes.pop();
-
-//     const userLikes = postLikes.map((like) => {
-//       return {
-//         id: like._id,
-//         username: like.userId.username,
-//       };
-//     });
-
-//     return res
-//       .status(400)
-//       .json({ userLikes: userLikes, hasMorePages, success: true });
-//   } catch (err) {
-//     return res.status(400).json({ error: err.message });
-//   }
-// };
 
 module.exports = {
   getPost,
@@ -337,7 +241,5 @@ module.exports = {
   updatePost,
   deletePost,
   likePost,
-  // unlikePost,
-  // getUserLikedPosts,
-  // getUserLikes,
+  
 };
